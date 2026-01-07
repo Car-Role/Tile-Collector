@@ -7,7 +7,9 @@ import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.events.ClientShutdown;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -83,7 +85,6 @@ public class TileCollectorPlugin extends Plugin
 	private NavigationButton navButton;
 	private int ticksSinceLastSave = 0;
 	private int lastSavedTileCount = 0;
-	private Thread shutdownHook;
 
 	@Override
 	protected void startUp() throws Exception
@@ -131,37 +132,6 @@ public class TileCollectorPlugin extends Plugin
 		clientToolbar.addNavigation(navButton);
 		log.info("Tile Collector panel added successfully!");
 		
-		// Register JVM shutdown hook to save on emergency shutdown (pressing X)
-		shutdownHook = new Thread(() -> {
-			log.info("JVM shutdown detected - emergency save");
-			if (!visitedTiles.isEmpty())
-			{
-				try
-				{
-					// Direct save without verification for speed
-					StringBuilder sb = new StringBuilder(visitedTiles.size() * 20);
-					boolean first = true;
-					for (WorldPoint tile : visitedTiles)
-					{
-						if (!first) sb.append(";");
-						sb.append(tile.getX()).append(",")
-							.append(tile.getY()).append(",")
-							.append(tile.getPlane());
-						first = false;
-					}
-					configManager.unsetConfiguration("tilecollector", "visitedTilesData");
-					configManager.setConfiguration("tilecollector", "visitedTilesData", sb.toString());
-					log.info("Emergency save completed: {} tiles", visitedTiles.size());
-				}
-				catch (Exception e)
-				{
-					log.error("Emergency save failed", e);
-				}
-			}
-		}, "TileCollector-ShutdownHook");
-		Runtime.getRuntime().addShutdownHook(shutdownHook);
-		log.info("Shutdown hook registered");
-		
 		// Initial scan if logged in
 		if (client.getGameState() == GameState.LOGGED_IN)
 		{
@@ -174,21 +144,7 @@ public class TileCollectorPlugin extends Plugin
 	{
 		log.info("Tile Collector shutting down...");
 		
-		// Remove shutdown hook since we're doing a clean shutdown
-		try
-		{
-			if (shutdownHook != null)
-			{
-				Runtime.getRuntime().removeShutdownHook(shutdownHook);
-				log.info("Shutdown hook removed");
-			}
-		}
-		catch (Exception e)
-		{
-			log.debug("Could not remove shutdown hook (may have already run)");
-		}
-		
-		// CRITICAL: Save before cleanup
+		// Save before cleanup
 		if (!visitedTiles.isEmpty())
 		{
 			log.info("Saving {} tiles before shutdown", visitedTiles.size());
@@ -213,6 +169,17 @@ public class TileCollectorPlugin extends Plugin
 	}
 
 	@Subscribe
+	public void onClientShutdown(ClientShutdown event)
+	{
+		// Save tiles when client is shutting down (replaces JVM shutdown hook)
+		if (!visitedTiles.isEmpty())
+		{
+			log.info("Client shutdown - saving {} tiles", visitedTiles.size());
+			saveVisitedTiles();
+		}
+	}
+
+	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{
 		if (event.getGameState() == GameState.LOGGED_IN)
@@ -221,7 +188,7 @@ public class TileCollectorPlugin extends Plugin
 		}
 		else if (event.getGameState() == GameState.LOADING || event.getGameState() == GameState.HOPPING)
 		{
-			// CRITICAL: Save before region change or world hop to prevent data loss
+			// Save before region change or world hop to prevent data loss
 			if (!visitedTiles.isEmpty())
 			{
 				log.debug("Saving before region/world change");
