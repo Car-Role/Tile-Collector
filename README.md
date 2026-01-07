@@ -3,15 +3,10 @@
 A RuneLite plugin that tracks and visualizes every tile you've walked on in Old School RuneScape. Gamifies exploration with an XP-based leveling system inspired by OSRS skills.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/car_role)
-[![RuneLite Plugin Hub](https://img.shields.io/badge/RuneLite-Plugin%20Hub-blue)](https://runelite.net/plugin-hub)
-
-## Author
-
-**car-role**
 
 ## WARNING
 
-This is a resource-intensive plugin. If you have an old computer, use "potato mode" or decrease the render scale in plugin settings.
+This is a resource-intensive plugin. If you have an old computer, try using "potato mode" or decreasing the render scale in plugin settings.
 
 ## Features
 
