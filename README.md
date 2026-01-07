@@ -1,8 +1,9 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/car_role)
 # Tile Collector
 
-A RuneLite plugin that tracks and visualizes every tile you've walked on in Old School RuneScape. Gamifies exploration with an XP-based leveling system inspired by OSRS skills.
+A RuneLite plugin that tracks and visualizes every tile you've walked on in Old School RuneScape. Gamifies exploration with an XP-based leveling system inspired by OSRS skills. Watch your level increase in the sidebar!
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/car_role)
+https://github.com/user-attachments/assets/afd5c318-857c-456b-9ec2-e9d88b88be40
 
 ## WARNING
 
