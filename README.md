@@ -55,12 +55,6 @@ The plugin intelligently handles:
 | Potato Mode | Disable rendering to save resources | Disabled |
 | Max Render Distance | Maximum distance to render highlights (0 = unlimited) | 20 |
 
-## Usage
-
-1. Enable the plugin in RuneLite
-2. Open the Tile Collector panel from the sidebar (tile icon)
-3. Walk around the game - tiles will automatically be marked as visited
-4. View your level and progress in the side panel
 
 ## Technical Details
 
