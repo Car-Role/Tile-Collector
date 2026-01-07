@@ -2,11 +2,16 @@
 
 A RuneLite plugin that tracks and visualizes every tile you've walked on in Old School RuneScape. Gamifies exploration with an XP-based leveling system inspired by OSRS skills.
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/car_role)
 [![RuneLite Plugin Hub](https://img.shields.io/badge/RuneLite-Plugin%20Hub-blue)](https://runelite.net/plugin-hub)
 
 ## Author
 
 **car-role**
+
+## WARNING
+
+This is a resource-intensive plugin. If you have an old computer, use "potato mode" or decrease the render scale in plugin settings.
 
 ## Features
 
@@ -55,26 +60,12 @@ The plugin intelligently handles:
 | Potato Mode | Disable rendering to save resources | Disabled |
 | Max Render Distance | Maximum distance to render highlights (0 = unlimited) | 20 |
 
-## Installation
-
-### From Plugin Hub (Recommended)
-1. Open RuneLite
-2. Go to the Plugin Hub
-3. Search for "Tile Collector"
-4. Click Install
-
-### Manual Installation
-1. Build the plugin: `./gradlew build`
-2. The plugin JAR will be in `build/libs/`
-3. Place the JAR in your RuneLite plugins folder
-
 ## Usage
 
 1. Enable the plugin in RuneLite
 2. Open the Tile Collector panel from the sidebar (tile icon)
 3. Walk around the game - tiles will automatically be marked as visited
 4. View your level and progress in the side panel
-5. Use the "Reset All Data" button to start fresh
 
 ## Technical Details
 
@@ -87,11 +78,6 @@ The plugin intelligently handles:
   - Storage: SHA-256 hash verification prevents config file tampering
 - **Estimated ~1.2 million walkable tiles** in OSRS (surface, dungeons, instances)
 
-## Building
-
-```bash
-./gradlew build
-```
 
 ## License
 
