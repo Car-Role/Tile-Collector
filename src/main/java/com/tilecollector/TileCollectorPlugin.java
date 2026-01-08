@@ -149,9 +149,6 @@ public class TileCollectorPlugin extends Plugin
 		{
 			log.info("Saving {} tiles before shutdown", visitedTiles.size());
 			saveVisitedTiles();
-			
-			// Give ConfigManager time to persist
-			try { Thread.sleep(50); } catch (InterruptedException e) {}
 		}
 		
 		overlayManager.remove(overlay);
